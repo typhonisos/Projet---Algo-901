@@ -9,7 +9,7 @@ class SalleDeClasse :
     
 if __name__=="__main__" :
     salle1 = SalleDeClasse("A101", 30)
-    salle2 = SalleDeClasse("B206", 25)
+    salle2 = SalleDeClasse("B206", 25) 
     salle3 = SalleDeClasse("C304", 25)
     print(salle2)
     
