@@ -1,3 +1,3 @@
 print("test")
 
-gh auth login --web
+print("test2")
