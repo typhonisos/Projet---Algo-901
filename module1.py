@@ -1,5 +1,5 @@
 """
-Classe : ClassTemplate
+Classe : Enseignant
 Module :
 Description : Permet d'avoir une ossature pour toutes mes classes
 """
@@ -12,18 +12,18 @@ class ClassTemplate():
 
   def __str__(self):
     """ Methode pour l'affichge de la classe """
-    chaine="Ma manière d'afficher la classe ClassTemplate" +"\n"
+    chaine="Ma maniï¿½re d'afficher la classe ClassTemplate" +"\n"
     chaine=chaine+ "attribut01="+ str(self.attribut01) +"\n"
     chaine=chaine+ "attribut02="+ str(self.attribut02) +"\n"
     return chaine
 
   def action01(self, aValeurParametrage01, aValeurParametrage02):
-    """ Methode pour gérer le message action01 """
-    print(str(self.attribut01) + " action01 avec les paramétres " + str(aValeurParametrage01) +", "+ str(aValeurParametrage02))
+    """ Methode pour gï¿½rer le message action01 """
+    print(str(self.attribut01) + " action01 avec les paramï¿½tres " + str(aValeurParametrage01) +", "+ str(aValeurParametrage02))
 
   def action02(self, aValeurParametrage01, aValeurParametrage02):
-    """ Methode pour gérer le message action02 """
-    print(str(self.attribut02) + " action02 avec les paramétres " + str(aValeurParametrage01) +", "+ str(aValeurParametrage02))
+    """ Methode pour gï¿½rer le message action02 """
+    print(str(self.attribut02) + " action02 avec les paramï¿½tres " + str(aValeurParametrage01) +", "+ str(aValeurParametrage02))
 
 if __name__ == '__main__':
   """ Permet d'executer le code localement """
