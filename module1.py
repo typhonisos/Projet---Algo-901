@@ -1,3 +1,4 @@
+
 """
 Classe : Enseignant
 Module :
@@ -32,3 +33,4 @@ if __name__ == '__main__':
   maClasseTemplate.action01("01p1","01p2")
   maClasseTemplate.action02("02p1","02p2")
     
+
