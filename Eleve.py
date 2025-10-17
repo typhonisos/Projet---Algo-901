@@ -1,20 +1,20 @@
-from Personne import Personne # importation de la classe Personne
+from Personne import Personne
+
 class Eleve(Personne):
-    def __init__(self, nom, prenom, tel, mail, annee_entree, niveau, classe):
-        super().__init__(nom, prenom, tel, mail)  # appel du constructeur parent
-        self.annee_entree = annee_entree
-        self.niveau = niveau  # 6ème, 5ème, 4ème, 3ème
-        self.classe = classe  # référence vers un objet Classe
-        self.notes = {}  # dictionnaire {matiere: [liste de notes]}
+    def __init__(self, nom, prenom, tel, mail, anneeEntree, niveau):
+        super().__init__(nom, prenom, tel, mail)
+        self.anneeEntree = anneeEntree
+        self.niveau = niveau
+        self.notes = {}  # {Matiere: [liste de notes]}
 
-    def ajouter_note(self, matiere, note):
-        if matiere not in self.notes:
-            self.notes[matiere] = []
-        self.notes[matiere].append(note)
+    def ajouterNote(self, Matiere, note):
+        if Matiere not in self.notes:
+            self.notes[Matiere] = []
+        self.notes[Matiere].append(note)
 
-    def moyenne_par_matiere(self, matiere):
-        if matiere in self.notes and self.notes[matiere]:
-            return sum(self.notes[matiere]) / len(self.notes[matiere])
+    def moyenne_par_matiere(self, Matiere):
+        if Matiere in self.notes and self.notes[Matiere]:
+            return sum(self.notes[Matiere]) / len(self.notes[Matiere])
         return None
 
     def moyenne_generale(self):
