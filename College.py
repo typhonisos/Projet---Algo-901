@@ -60,12 +60,11 @@ class College:
     def toutes_les_matieres(self) -> List:
         """
         Retourne la liste des matières présentes dans le collège.
-        (On suppose que chaque département sait donner ses matières
-        via une méthode matieres_du_departement()).
+        On agrège simplement les listeMatieres de chaque département.
         """
         matieres = []
         for d in self.listeDepartements:
-            matieres.extend(d.matieres_du_departement())
+            matieres.extend(d.listeMatieres)
         return matieres
 
     def tous_les_eleves(self) -> List:
@@ -101,7 +100,7 @@ class College:
         eleves = self.tous_les_eleves()
         for d in self.listeDepartements:
             notes = []
-            for m in d.matieres_du_departement():
+            for m in d.listeMatieres:
                 for e in eleves:
                     notes.extend(e.notes.get(m, []))
             res[d.nom] = sum(notes) / len(notes) if notes else None
@@ -126,6 +125,7 @@ class College:
             f"Collège {self.nom}\n"
             f"Site : {self.siteInternet}\n"
             f"Départements : {[d.nom for d in self.listeDepartements]}\n"
-            f"Salles : {[s.id_classe for s in self.listeSalleDeClasse]}\n"
+            # SalleDeClasse a un attribut id_salle
+            f"Salles : {[s.id_salle for s in self.listeSalleDeClasse]}\n"
             f"Classes : {[c.nom for c in self.listeClasses]}"
         )
