@@ -22,3 +22,33 @@ class Eleve(Personne):
         if toutes_notes:
             return sum(toutes_notes) / len(toutes_notes)
         return None
+
+if __name__ == "__main__":
+    # Création d’un élève
+    e = Eleve(
+        nom="Dupont",
+        prenom="Jean",
+        tel="0601020304",
+        mail="jean.dupont@example.com",
+        anneeEntree=2022,
+        niveau="3ème"
+    )
+
+    # Ajout de notes
+    e.ajouterNote("Maths", 15)
+    e.ajouterNote("Maths", 12)
+    e.ajouterNote("Français", 14)
+    e.ajouterNote("Histoire", 10)
+    e.ajouterNote("Histoire", 16)
+
+    # Affichage des résultats
+    print("ÉLÈVE :", e.nom, e.prenom)
+    print("Année d'entrée :", e.anneeEntree)
+    print("Niveau :", e.niveau)
+    print("Notes :", e.notes)
+
+    print("\nMoyenne en Maths :", e.moyenne_par_matiere("Maths"))
+    print("Moyenne en Français :", e.moyenne_par_matiere("Français"))
+    print("Moyenne en Histoire :", e.moyenne_par_matiere("Histoire"))
+    
+    print("\nMoyenne générale :", e.moyenne_generale())
