@@ -1,33 +1,83 @@
 """
 Classe : Enseignant
 Module :
-Description : Repr�sente un enseignant dans un coll�ge.
+Description : Représente un enseignant dans un collége.
 """
 
 from Personne import Personne
 from Matiere import Matiere
+# from Departement import Departement # (Faire attention à l'import circulaire par la suite!!)
+
 
 class Enseignant(Personne):
-    """ Repr�sente un enseignant avec sa mati�re, son indice, sa date de prise de fonction. """
+    """ Représente un enseignant avec sa matiére, son indice, sa date de prise de fonction et son statut responsable """
     
-    def __init__(self, aNom: str, aPrenom: str, aTel: str, aMail: str, aDatePriseFonction: str, aIndice: float, aMatiere: Matiere):
-        """Constructeur avec passage des valeurs pour les attributs."""
+    def __init__(self, aNom: str, aPrenom: str, aTel: str, aMail: str, aDatePriseFonction: str, aIndice: float, aMatiere: Matiere, aResponsable: bool = False):
+        """
+        Constructeur de la classe Enseignant.
+        Hérite de la classe Personne
+
+        :param aNom: Nom de l'enseignant
+        :param aPrenom: Prénom de l'enseignant
+        :param aTel: Numéro de téléphone
+        :param aMail: Adresse mail
+        :param aDatePriseFonction: Date de prise de fonction (str)
+        :param aIndice: Indice de rémunération (float)
+        :param aMatiere: Matière enseignée
+        :param aResponsable: Booléen indiquant si l'enseignant est responsable
+        """
+        # Appel au constructeur de la classe mère Personne
         super().__init__(aNom, aPrenom, aTel, aMail)
         self.datePriseFonction = aDatePriseFonction
         self.indice = aIndice
         self.matiere = aMatiere
+        self.responsable = aResponsable  #  ajout du booléen
+
+        # ralation UML département 1..* Enseignants (un enseignant appartient à un département)
+        # (initialisé à None, défini plus tard via definirDepartement)
+
+        self.departement = None
+    
+    def definirDepartement(self, departement):
+        """
+        Associe l'enseignant à un département.
+        La classe Département se charge d'appeler cette méthode.
+        """
+        self.departement = departement
 
     def __str__(self):
-        """Affichage des d�tails de l'enseignant."""
+        """Affichage des détails de l'enseignant."""
         return (f"Enseignant : {self.nom} {self.prenom}\n"
-                f"T�l�phone : {self.tel}\n"
+                f"Téléphone : {self.tel}\n"
                 f"Mail : {self.mail}\n"
                 f"Date prise de fonction : {self.datePriseFonction}\n"
                 f"Indice : {self.indice}\n"
-                f"Mati�re enseign�e : {self.matiere.nom}")
+                f"Matiére enseignée : {self.matiere.nom}"
+                f"Responsable : {self.responsable}\n"
+                f"Département : {self.departement.nom if self.departement else 'Aucun'}")
+
+
+# main 
 
 if __name__ == '__main__':
-    from Matiere import Matiere
-    matiere_test = Matiere("Math�matiques", "Salle 201", 30)
-    prof = Enseignant("Marchal", "Nina", "0601020304", "n.marchal@college.fr", "2022-09-01", 473.5, matiere_test)
+    from Departement import Departement   # import ici de la classe Département afin d'éviter l'import circulaire 
+
+    # Création matière
+    matiere_test = Matiere("Mathématiques", "Salle 149", 30, 3.0)
+
+    # Création enseignant
+    prof = Enseignant(
+        "Marchal", "Nina", "0601020304", "nina@college.fr",
+        "2022-09-01", 473.5, matiere_test, True
+    )
+
+    # Création département
+    dep = Departement("Sciences", responsable=prof)
+
+    # Association enseignant ↔ département
+    prof.definirDepartement(dep)
+    dep.ajouterEnseignant(prof)
+
+    # Affichage
     print(prof)
+
