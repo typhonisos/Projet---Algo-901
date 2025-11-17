@@ -4,7 +4,7 @@ Module : college.py
 Contient UNIQUEMENT la classe College
 """
 
-from typing import List, Dict, Optional
+from typing import List
 
 
 class College:
@@ -12,120 +12,19 @@ class College:
         """
         Initialise un collège.
         :param nom: nom du collège
-        :param siteInternet: objet Site
+        :param siteInternet: objet SiteWeb
         """
-        self.nom = nom
-        self.siteInternet = siteInternet
-        self.listeDepartements: List = []
-        self.listeSalleDeClasse: List = []
-        self.listeClasses: List = []
-
-    # ---------------------- Gestion des départements ---------------------- #
-    def ajouter_departement(self, dep) -> None:
-        if dep in self.listeDepartements:
-            raise ValueError(f"Département déjà présent : {dep}")
-        self.listeDepartements.append(dep)
-
-    def retirer_departement(self, dep) -> None:
-        try:
-            self.listeDepartements.remove(dep)
-        except ValueError:
-            raise ValueError("Département introuvable")
-
-    # ---------------------- Gestion des salles ----------------------------- #
-    def ajouter_salle(self, salle) -> None:
-        if salle in self.listeSalleDeClasse:
-            raise ValueError(f"Salle déjà présente : {salle}")
-        self.listeSalleDeClasse.append(salle)
-
-    def retirer_salle(self, salle) -> None:
-        try:
-            self.listeSalleDeClasse.remove(salle)
-        except ValueError:
-            raise ValueError("Salle introuvable")
-
-    # ---------------------- Gestion des classes ---------------------------- #
-    def ajouter_classe(self, c) -> None:
-        if c in self.listeClasses:
-            raise ValueError(f"Classe déjà présente : {c}")
-        self.listeClasses.append(c)
-
-    def retirer_classe(self, c) -> None:
-        try:
-            self.listeClasses.remove(c)
-        except ValueError:
-            raise ValueError("Classe introuvable")
-
-    # ---------------------- Méthodes de calcul ----------------------------- #
-    def toutes_les_matieres(self) -> List:
-        """
-        Retourne la liste des matières présentes dans le collège.
-        On agrège simplement les listeMatieres de chaque département.
-        """
-        matieres = []
-        for d in self.listeDepartements:
-            matieres.extend(d.listeMatieres)
-        return matieres
-
-    def tous_les_eleves(self) -> List:
-        """
-        Retourne la liste de tous les élèves du collège.
-        (On suppose que chaque classe contient une liste d'élèves
-        dans l'attribut listeEleves).
-        """
-        return [e for c in self.listeClasses for e in c.listeEleves]
-
-    def moyenne_par_matiere(self) -> Dict[str, Optional[float]]:
-        """
-        Calcule la moyenne par matière sur tous les élèves du collège.
-        On suppose que chaque élève possède un dictionnaire
-        notes : Dict[Matiere, List[float]]
-        """
-        result: Dict[str, Optional[float]] = {}
-        matieres = self.toutes_les_matieres()
-        eleves = self.tous_les_eleves()
-        for m in matieres:
-            notes = []
-            for e in eleves:
-                notes.extend(e.notes.get(m, []))
-            result[m.nom] = sum(notes) / len(notes) if notes else None
-        return result
-
-    def moyenne_par_departement(self) -> Dict[str, Optional[float]]:
-        """
-        Calcule la moyenne par département
-        (agrégation des matières de chaque département).
-        """
-        res: Dict[str, Optional[float]] = {}
-        eleves = self.tous_les_eleves()
-        for d in self.listeDepartements:
-            notes = []
-            for m in d.listeMatieres:
-                for e in eleves:
-                    notes.extend(e.notes.get(m, []))
-            res[d.nom] = sum(notes) / len(notes) if notes else None
-        return res
-
-    def moyenne_generale_eleve(self, el) -> Optional[float]:
-        """
-        Retourne la moyenne générale d'un élève
-        (on suppose que la méthode moyenne_generale()
-        est définie dans la classe Eleve).
-        """
-        return el.moyenne_generale()
-
-    def matieres_non_notees_eleve(self, el) -> List[str]:
-        """
-        Retourne les matières sans note pour un élève.
-        """
-        return [m.nom for m in self.toutes_les_matieres() if not el.notes.get(m)]
+        self.aNom = nom
+        self.aSiteInternet = siteInternet
+        self.aListeDepartements: List = []
+        self.aListeSallesDeClasse: List = []
+        self.aListeClasses: List = []
 
     def __str__(self) -> str:
         return (
-            f"Collège {self.nom}\n"
-            f"Site : {self.siteInternet}\n"
-            f"Départements : {[d.nom for d in self.listeDepartements]}\n"
-            # SalleDeClasse a un attribut id_salle
-            f"Salles : {[s.id_salle for s in self.listeSalleDeClasse]}\n"
-            f"Classes : {[c.nom for c in self.listeClasses]}"
+            f"Collège {self.aNom}\n"
+            f"Site : {self.aSiteInternet}\n"
+            f"Départements : {[d.aNom for d in self.aListeDepartements]}\n"
+            f"Salles : {[s.aId_salle for s in self.aListeSallesDeClasse]}\n"
+            f"Classes : {[c.aNom for c in self.aListeClasses]}"
         )
