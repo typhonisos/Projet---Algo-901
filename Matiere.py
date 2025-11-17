@@ -1,7 +1,6 @@
 class Matiere:
     """
     Classe représentant une matière enseignée dans un collège.
-    Conforme au diagramme UML fourni (avec corrections logiques).
     """
 
     def __init__(self, nom, salle, volume_horaire):
