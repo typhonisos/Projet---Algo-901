@@ -35,11 +35,6 @@ class Matiere:
         return [e for e in liste_eleves if e not in self.aNotes]
     
     def __str__(self):
-<<<<<<< HEAD
         return f"Matière : {self.nom} | Salle : {self.salle} | Volume : {self.volume_horaire}h"
 
 
-"test"
-=======
-        return f"Matière : {self.aNom} | Salle : {self.aSalle.aId_salle} | Volume : {self.aVolume_horaire}h"
->>>>>>> 41c7e6b (maj v2)
