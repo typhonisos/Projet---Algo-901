@@ -45,3 +45,4 @@ class Matiere:
         return f"Matière : {self.nom} | Salle : {self.salle} | Volume : {self.volume_horaire}h"
 
 
+"test"
