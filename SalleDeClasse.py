@@ -19,13 +19,13 @@ class SalleDeClasse:
         if aCapacite <= 0:
             raise ValueError("La capacité doit être positive.")
 
-        self.idSalle = aIdSalle
-        self.capacite = aCapacite
-        self.occupations = []  # liste des réservations
+        self.aIdSalle = aIdSalle
+        self.aCapacite = aCapacite
+        self.aOccupation = []  # liste des réservations
 
     def __str__(self):
         """Affichage simple de la salle."""
-        return f"Salle {self.idSalle} (capacité : {self.capacite} places)"
+        return f"Salle {self.aIdSalle} (capacité : {self.aCapacite} places)"
 
     def est_disponible(self, aJour: str, aHeure: float, aDuree: float = 1.0) -> bool:
         """
@@ -36,7 +36,7 @@ class SalleDeClasse:
         :param aDuree: Durée du créneau
         :return: True si la salle est libre, False sinon
         """
-        for jour, heure, duree, _ in self.occupations:
+        for jour, heure, duree, _ in self.aOccupation:
             # Vérifie un chevauchement de créneaux
             if jour == aJour and not (aHeure + aDuree <= heure or aHeure >= heure + duree):
                 return False
@@ -52,17 +52,17 @@ class SalleDeClasse:
         :param aClasse: Nom de la classe qui réserve la salle
         """
         if self.est_disponible(aJour, aHeure, aDuree):
-            self.occupations.append((aJour, aHeure, aDuree, aClasse))
+            self.aOccupation.append((aJour, aHeure, aDuree, aClasse))
         else:
-            raise ValueError(f"Salle {self.idSalle} déjà occupée à {aHeure}h le {aJour}.")
+            raise ValueError(f"Salle {self.aIdSalle} déjà occupée à {aHeure}h le {aJour}.")
 
     def afficher_occupation(self):
         """Affiche toutes les réservations de la salle."""
-        if not self.occupations:
-            print(f"Salle {self.idSalle} : aucune réservation.")
+        if not self.aOccupation:
+            print(f"Salle {self.aIdSalle} : aucune réservation.")
         else:
-            print(f"Occupation de la salle {self.idSalle} :")
-            for jour, heure, duree, classe in sorted(self.occupations):
+            print(f"Occupation de la salle {self.aIdSalle} :")
+            for jour, heure, duree, classe in sorted(self.aOccupation):
                 print(f"  {jour} {heure}h–{heure + duree}h : {classe}")
 
 
@@ -77,3 +77,4 @@ if __name__ == "__main__":
 
     print(salle.est_disponible("Lundi", 11, 1))
     print(salle.est_disponible("Lundi", 9.5, 1))
+
