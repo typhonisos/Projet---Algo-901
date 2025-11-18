@@ -3,7 +3,7 @@ from Enseignant import Enseignant
 from Matiere import Matiere
 
 class Departement:
-    def __init__(self,nom : str, responsable : Optional[Enseignant] =None, listeEnseignants : List[Enseignant]=[],listeMatieres : List[Matiere] =[] ):
+    def __init__(self,aNom : str, aResponsable : Optional[Enseignant] =None, aListeEnseignants : List[Enseignant]=[],aListeMatieres : List[Matiere] =[] ):
         """
         Constructeur de la classe Departement avec comme attributs :
         -nom (str) : Le nom du département
@@ -11,10 +11,10 @@ class Departement:
         -listeEnseignants (List[Enseignant]) : Liste des enseignants du département
         -listeMatiere (List[Matiere]) : Liste des matières du département 
         """
-        self.nom=nom
-        self.responsable =responsable
-        self.listeEnseignants=listeEnseignants
-        self.listeMatieres=listeMatieres
+        self.nom=aNnom
+        self.responsable =aResponsable
+        self.listeEnseignants=aListeEnseignants
+        self.listeMatieres=aListeMatieres
 
     def __str__(self):
         return f"Département : {self.nom} avec comme responsable: {self.responsable}"
@@ -49,7 +49,7 @@ class Departement:
 
     def enleverMatiere(self,matiere_partante: Matiere):
         """
-        Enlève une matière de la liste des matières en vériafiant auparavant si elle faisait bien partie du département
+        Enlève une matière de la liste des matières en vérifiant auparavant si elle faisait bien partie du département
         """
         if not matiere_partante in self.listeMatieres:
             return "Cette matière ne fait pas partie du département"
