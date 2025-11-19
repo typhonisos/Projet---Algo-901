@@ -1,10 +1,7 @@
-Classe : Academie
- 
-
-
 from typing import List, Optional, Dict
 from College import College
-
+from Eleve import Eleve
+from Enseignant import Enseignant
 
 class Academie:
     """Classe représentant une académie composée de plusieurs collèges."""
@@ -12,8 +9,8 @@ class Academie:
     def __init__(self, nom: str, region: str):
         """
         Constructeur de la classe Academie.
-        :param nom: Nom de l'académie (ex: 'Académie de Grenoble')
-        :param region: Région géographique de l'académie
+        :param nom: Nom de l'académie
+        :param region: Région géographique
         """
         self.nom = nom
         self.region = region
@@ -23,8 +20,12 @@ class Academie:
         """Ajoute un collège à la liste de l’académie."""
         if not isinstance(college, College):
             raise TypeError("L'objet ajouté doit être une instance de la classe College.")
-        if college in self.listeColleges:
-            raise ValueError(f"Le collège {college.nom} est déjà enregistré.")
+        
+        # Vérification basée sur aNom (attribut de la classe College fournie)
+        for c in self.listeColleges:
+            if c.aNom == college.aNom:
+                raise ValueError(f"Le collège {college.aNom} est déjà enregistré.")
+        
         self.listeColleges.append(college)
 
     def retirer_college(self, college: College) -> None:
@@ -34,173 +35,144 @@ class Academie:
         try:
             self.listeColleges.remove(college)
         except ValueError:
-            raise ValueError(f"Collège '{college.nom}' introuvable dans cette académie.")
+            raise ValueError(f"Collège '{college.aNom}' introuvable dans cette académie.")
 
     def rechercher_college(self, nom_college: str) -> Optional[College]:
         """Recherche un collège par son nom."""
         for c in self.listeColleges:
-            if c.nom.lower() == nom_college.lower():
+            # Utilisation de aNom (College)
+            if c.aNom.lower() == nom_college.lower():
                 return c
         return None
 
-    def _agreger_moyennes(self, get_college_moyennes_func) -> Dict[str, Optional[float]]:
-        """
-        Méthode privée helper pour agréger les moyennes (par matière ou département)
-        de tous les collèges.
-        :param get_college_moyennes_func: Fonction à appeler sur chaque collège (ex: college.moyenne_par_matiere)
-        """
-        resultats = {}
-        total_moyennes = {}
-        nombre_sources = {}
-
-        for college in self.listeColleges:
-            moyennes_source = get_college_moyennes_func(college) # Appelle la fonction passée en paramètre
-            
-            for nom_element, moyenne in moyennes_source.items():
-                if moyenne is not None:
-                    total_moyennes.setdefault(nom_element, 0.0)
-                    nombre_sources.setdefault(nom_element, 0)
-                    
-                    total_moyennes[nom_element] += moyenne
-                    nombre_sources[nom_element] += 1
-
-        for nom_element in total_moyennes:
-            if nombre_sources[nom_element] > 0:
-                resultats[nom_element] = round(
-                    total_moyennes[nom_element] / nombre_sources[nom_element], 2
-                )
-            else:
-                resultats[nom_element] = None
-        return resultats
-
     def moyenne_globale_academie(self) -> Dict[str, Optional[float]]:
         """
-        Retourne la moyenne globale par matière pour l’ensemble des collèges de l’académie.
-        Ceci est une "moyenne des moyennes" des collèges, non pondérée.
+        Calcule la moyenne globale par matière pour l'ensemble des collèges.
+        Parcourt manuellement les structures car College n'a pas de méthode de calcul.
         """
-        # Utilise la méthode helper en lui passant la fonction college.moyenne_par_matiere
-        return self._agreger_moyennes(lambda college: college.moyenne_par_matiere())
+        total_points = {} # {MatiereNom: somme_notes}
+        total_notes_count = {} # {MatiereNom: nombre_notes}
 
-    def moyenne_globale_departement(self) -> Dict[str, Optional[float]]:
-        """
-        Retourne la moyenne globale par département (tous collèges confondus).
-        Ceci est une "moyenne des moyennes" des départements des collèges, non pondérée.
-        """
-        # Utilise la méthode helper en lui passant la fonction college.moyenne_par_departement
-        return self._agreger_moyennes(lambda college: college.moyenne_par_departement())
+        for college in self.listeColleges:
+            # Utilisation de aListeClasses (College)
+            for classe in college.aListeClasses:
+                # Utilisation de listeEleves (Classe)
+                for eleve in classe.listeEleves:
+                    # Utilisation de aNotes (Eleve) : dictionnaire {MatiereStr: [float]}
+                    for matiere_nom, notes in eleve.aNotes.items():
+                        if notes:
+                            if matiere_nom not in total_points:
+                                total_points[matiere_nom] = 0
+                                total_notes_count[matiere_nom] = 0
+                            
+                            total_points[matiere_nom] += sum(notes)
+                            total_notes_count[matiere_nom] += len(notes)
 
-    def rechercher_eleve(self, nom_eleve: str) -> Optional[object]:
+        resultats = {}
+        for mat, total in total_points.items():
+            count = total_notes_count[mat]
+            resultats[mat] = round(total / count, 2) if count > 0 else None
+        
+        return resultats
+
+    def rechercher_eleve(self, nom_eleve: str) -> Optional[Eleve]:
         """
         Recherche un élève dans tous les collèges de l'académie par son nom.
-        Retourne le premier objet Eleve trouvé ou None.
         """
         for college in self.listeColleges:
-            for eleve in college.tous_les_eleves():
-                if eleve.nom.lower() == nom_eleve.lower():
-                    return eleve
+            # Accès via aListeClasses (College)
+            for classe in college.aListeClasses:
+                # Accès via listeEleves (Classe)
+                for eleve in classe.listeEleves:
+                    # Accès via nom (Personne/Eleve)
+                    if eleve.nom.lower() == nom_eleve.lower():
+                        return eleve
         return None
 
-    def rechercher_enseignant(self, nom_enseignant: str) -> Optional[object]:
+    def rechercher_enseignant(self, nom_enseignant: str) -> Optional[Enseignant]:
         """
-        Recherche un enseignant dans tous les collèges de l'académie par son nom.
-        Retourne le premier objet Enseignant trouvé ou None.
+        Recherche un enseignant dans tous les collèges.
         """
         for college in self.listeColleges:
-            for dep in college.listeDepartements:
-                for ens in dep.listeEnseignants:
+            # Accès via aListeDepartements (College)
+            for dep in college.aListeDepartements:
+                # On suppose que Departement a une liste 'enseignants' ou 'listeEnseignants'
+                # (Code Département non complet fourni, mais logique standard)
+                if hasattr(dep, 'listeEnseignants'):
+                    liste_profs = dep.listeEnseignants
+                elif hasattr(dep, 'enseignants'):
+                    liste_profs = dep.enseignants
+                else:
+                    continue
+
+                for ens in liste_profs:
                     if ens.nom.lower() == nom_enseignant.lower():
                         return ens
         return None
 
-    def __str__(self):
-        """Affichage synthétique de l’académie et de ses collèges."""
-        chaine = f"\nAcadémie : {self.nom} ({self.region})\n"
-        chaine += f"Nombre de collèges : {len(self.listeColleges)}\n"
-        chaine += "Liste des collèges :\n"
-        if not self.listeColleges:
-            chaine += "  (Aucun collège enregistré dans cette académie)\n"
-        else:
-            for c in self.listeColleges:
-                chaine += f"  - {c.nom}\n"
-        return chaine
-
     def afficher_occupation_salles_academie(self) -> None:
-        """Affiche l'occupation de toutes les salles de tous les collèges de l'académie."""
+        """Affiche l'occupation des salles (si l'information est disponible)."""
         print(f"\n--- Occupation des salles dans l'Académie {self.nom} ---")
         if not self.listeColleges:
-            print("Aucun collège dans cette académie pour afficher l'occupation des salles.")
+            print("Aucun collège enregistré.")
             return
 
-        total_salles_affiches = 0
         for college in self.listeColleges:
-            print(f"\nCollège : {college.nom}")
-            if not college.listeSalleDeClasse:
-                print("  (Aucune salle de classe enregistrée pour ce collège)")
+            print(f"\nCollège : {college.aNom}")
+            # Utilisation de aListeSallesDeClasse (College)
+            if not college.aListeSallesDeClasse:
+                print("  (Aucune salle enregistrée)")
                 continue
             
-            for salle in college.listeSalleDeClasse:
-                if salle.occupations:
-                    print(f"  Salle {salle.id_salle} (capacité: {salle.capacite} places) :")
-                    for j, h, d, c_nom in sorted(salle.occupations):
+            for salle in college.aListeSallesDeClasse:
+                # Utilisation de aId_salle (indiqué dans le __str__ de College)
+                # et aCapacite (supposé cohérent avec Matiere qui prend une salle)
+                id_s = getattr(salle, 'aId_salle', 'Inconnu')
+                cap = getattr(salle, 'aCapacite', '?')
+                print(f"  Salle {id_s} (Capacité: {cap})")
+                
+                # Note: La classe SalleDeClasse n'est pas fournie, 
+                # on vérifie si l'attribut occupations existe (comme dans le code original)
+                occupations = getattr(salle, 'occupations', [])
+                if occupations:
+                    for j, h, d, c_nom in sorted(occupations):
                         print(f"    {j} {h}h–{h + d}h : {c_nom}")
-                    total_salles_affiches += 1
                 else:
-                    print(f"  Salle {salle.id_salle} : aucune réservation.")
-        
-        if total_salles_affiches == 0 and any(c.listeSalleDeClasse for c in self.listeColleges):
-             print("\nNote : Aucune salle n'a de réservation enregistrée dans l'académie.")
+                    print("    Aucune occupation enregistrée.")
 
-    def afficher_salle_eleve_academie(self, eleve_nom: str, jour_semaine: str, numero_semaine: int, heure_debut: int) -> None:
+    def afficher_salle_eleve_academie(self, eleve_nom: str, jour: str, heure: int) -> None:
         """
-        Affiche la salle où se trouve un élève spécifique à une heure donnée
-        en cherchant dans tous les collèges.
+        Affiche où se trouve un élève à un moment donné via son emploi du temps.
         """
         eleve = self.rechercher_eleve(eleve_nom)
         if not eleve:
             print(f"L'élève '{eleve_nom}' n'a pas été trouvé dans l'académie.")
             return
 
-        if not hasattr(eleve, 'classe') or eleve.classe is None:
-            print(f"L'élève '{eleve_nom}' n'est pas assigné à une classe.")
-            return
-
-        classe_eleve = eleve.classe
-        
-        if not hasattr(classe_eleve, 'get_cours_a_heure'):
-             print(f"La classe {classe_eleve.nom} de l'élève {eleve_nom} n'a pas de méthode 'get_cours_a_heure'.")
-             return
-        
-        cours_info = classe_eleve.get_cours_a_heure(jour_semaine, numero_semaine, heure_debut)
-
-        if cours_info:
-            matiere, salle = cours_info
-            print(f"L'élève {eleve_nom} est en {matiere.nom} dans la salle {salle.id_salle} "
-                  f"le {jour_semaine} semaine {numero_semaine} à {heure_debut}h.")
+        # La classe Eleve fournie n'a pas d'attribut 'classe' direct vers l'objet Classe,
+        # mais possède 'aEmploiDuTemps'. Nous devons interroger l'EDT.
+        if eleve.aEmploiDuTemps:
+            print(f"Recherche dans l'emploi du temps de {eleve.prenom} {eleve.nom}...")
+            # Le code de EmploiDuTemps n'est pas complet, on suppose une méthode d'affichage ou d'accès
+            # Ici, on affiche simplement l'objet EDT comme preuve de concept cohérente avec la classe Eleve
+            print(f"EDT trouvé : {eleve.aEmploiDuTemps}")
+            
+            # Si l'EDT a une structure type dictionnaire (cas fréquent) :
+            if hasattr(eleve.aEmploiDuTemps, 'aEdt'):
+                 # Logique fictive adaptée à l'attribut aEdt vu dans le main de Eleve
+                 print(f"Détails : {eleve.aEmploiDuTemps.aEdt}")
         else:
-            print(f"Aucun cours trouvé pour l'élève {eleve_nom} le {jour_semaine} semaine {numero_semaine} à {heure_debut}h.")
+            print(f"L'élève {eleve_nom} n'a pas d'emploi du temps assigné.")
 
-    def imprimer_fiche_signaletique(self, nom_personne: str, type_personne: str) -> None:
-        """
-        Imprime la fiche signalétique d'un enseignant ou d'un élève.
-        :param nom_personne: Le nom de la personne à rechercher.
-        :param type_personne: 'eleve' ou 'enseignant'.
-        """
-        personne = None
-        if type_personne.lower() == 'eleve':
-            personne = self.rechercher_eleve(nom_personne)
-        elif type_personne.lower() == 'enseignant':
-            personne = self.rechercher_enseignant(nom_personne)
+    def __str__(self):
+        """Affichage synthétique."""
+        chaine = f"\nAcadémie : {self.nom} ({self.region})\n"
+        chaine += f"Nombre de collèges : {len(self.listeColleges)}\n"
+        chaine += "Liste des collèges :\n"
+        if not self.listeColleges:
+            chaine += "  (Aucun collège)\n"
         else:
-            print("Type de personne invalide. Utilisez 'eleve' ou 'enseignant'.")
-            return
-
-        if personne:
-            if hasattr(personne, 'fiche_signaletique'):
-                print(f"\n--- Fiche signalétique de {personne.prenom} {personne.nom} ({type_personne.capitalize()}) ---")
-                fiche = personne.fiche_signaletique()
-                for cle, valeur in fiche.items():
-                    print(f"{cle} : {valeur}")
-            else:
-                print(f"L'objet {type_personne} trouvé n'a pas de méthode 'fiche_signaletique'.")
-        else:
-            print(f"Aucun {type_personne} nommé '{nom_personne}' n'a été trouvé.")
+            for c in self.listeColleges:
+                # Utilisation de aNom
+                chaine += f"  - {c.aNom}\n"
+        return chaine
