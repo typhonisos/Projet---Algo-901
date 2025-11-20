@@ -33,6 +33,10 @@ class EmploiDuTemps :
         return res
         
     
+    
+
+        
+if __name__ == "__main__":
     def test(self):
         listeErreur = []
         tests = ["Lundi 4 9", "Mardi 1 11", "lundi 4 9", "londi 0 8", "lundi 4 7" ]
@@ -44,12 +48,11 @@ class EmploiDuTemps :
             print("Tests Réussis")
         else:
             print("Les tests n°"+str(listeErreur)+" ont échoués")
-
-        
-edt = EmploiDuTemps(None)
-EmploiDuTemps.test(edt)
+    edt = EmploiDuTemps(None)
+    EmploiDuTemps.test(edt)
 
 
         
+
 
 
