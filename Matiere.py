@@ -34,6 +34,6 @@ class Matiere:
         return [e for e in liste_eleves if e not in self.aNotes]
     
     def __str__(self):
-        return f"Matière : {self.nom} | Salle : {self.salle} | Volume : {self.volume_horaire}h"
+        return f"Matière : {self.aNom} | Salle : {self.aSalle} | Volume : {self.aVolume_horaire}h"
 
 

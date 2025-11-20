@@ -11,7 +11,7 @@ class Departement:
         -listeEnseignants (List[Enseignant]) : Liste des enseignants du département
         -listeMatiere (List[Matiere]) : Liste des matières du département 
         """
-        self.nom=aNnom
+        self.nom=aNom
         self.responsable =aResponsable
         self.listeEnseignants=aListeEnseignants
         self.listeMatieres=aListeMatieres

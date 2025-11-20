@@ -5,7 +5,9 @@ Description : Représente un enseignant dans un collége.
 """
 
 from Personne import Personne
+from Eleve import Eleve
 from Matiere import Matiere
+from EmploiDuTemps import EmploiDuTemps
 # from Departement import Departement # (Faire attention à l'import circulaire par la suite!!)
 
 
@@ -48,11 +50,11 @@ class Enseignant(Personne):
     def __str__(self):
         """Affichage des détails de l'enseignant."""
         return (f"Enseignant : {self.nom} {self.prenom}\n"
-                f"Téléphone : {self.tel}\n"
+                f"Téléphone : {self.telephone}\n"
                 f"Mail : {self.mail}\n"
                 f"Date prise de fonction : {self.datePriseFonction}\n"
                 f"Indice : {self.indice}\n"
-                f"Matiére enseignée : {self.matiere.nom}"
+                f"Matiére enseignée : {self.matiere.aNom}"
                 f"Responsable : {self.responsable}\n"
                 f"Département : {self.departement.nom if self.departement else 'Aucun'}")
 
@@ -61,9 +63,9 @@ class Enseignant(Personne):
 
 if __name__ == '__main__':
     from Departement import Departement   # import ici de la classe Département afin d'éviter l'import circulaire 
-
-    # Création matière
-    matiere_test = Matiere("Mathématiques", "Salle 149", 30, 3.0)
+    edt = EmploiDuTemps(x=None)
+    eleve1 = Eleve(aNom="Dupont", aPrenom="Jean", aTel="0123456789", aMail="jean.dupont@example.com", aAnneeEntree=2021, aNiveau = "3ème", aEmploiDuTemps=edt)    # Création matière
+    matiere_test = Matiere("Mathématiques", "Salle 149", 30)
 
     # Création enseignant
     prof = Enseignant(
@@ -72,7 +74,7 @@ if __name__ == '__main__':
     )
 
     # Création département
-    dep = Departement("Sciences", responsable=prof)
+    dep = Departement("Sciences", aResponsable=prof)
 
     # Association enseignant ↔ département
     prof.definirDepartement(dep)

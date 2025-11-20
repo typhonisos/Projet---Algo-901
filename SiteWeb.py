@@ -5,7 +5,7 @@ class SiteWeb:
     Classe représentant le site Internet d'un collège.
     """
 
-    def __init__(self, Url, Date_Creation, Responsable, Statut="actif", Pages=None):
+    def __init__(self, aUrl, aDate_Creation, aResponsable, aStatut="actif", aPages=None):
         """
         Initialise un site web.
         
@@ -15,11 +15,11 @@ class SiteWeb:
         : statut: Statut du site 
         : pages: Liste des pages disponibles sur le site
         """
-        self.url = Url
-        self.date_creation = Date_Creation
-        self.responsable = Responsable
-        self.statut = Statut
-        self.pages = Pages if Pages else []
+        self.url = aUrl
+        self.date_creation = aDate_Creation
+        self.responsable = aResponsable
+        self.statut = aStatut
+        self.pages = aPages if aPages else []
 
     # --- Méthodes de gestion des pages ---
     def ajouter_page(self, Titre, Contenu):

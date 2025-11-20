@@ -1,4 +1,5 @@
 from Eleve import Eleve
+from EmploiDuTemps import EmploiDuTemps
 
 class Classe:
     def __init__(self, aNom : str, aNiveau : str):
@@ -31,8 +32,9 @@ class Classe:
 
 if __name__ == "__main__":
     classe1 = Classe("3A", "Troisième")
-    eleve1 = Eleve(nom="Dupont", prenom="Jean", telephone="0123456789", mail="jean.dupont@example.com", annee_entree=2021, bulletin={})
-    eleve2 = Eleve(nom="Martin", prenom="Claire", telephone="9876543210", mail="claire.martin@example.com", annee_entree=2021, bulletin={})
+    edt = EmploiDuTemps(x=None)
+    eleve1 = Eleve(aNom="Dupont", aPrenom="Jean", aTel="0123456789", aMail="jean.dupont@example.com", aAnneeEntree=2021, aNiveau = "3ème", aEmploiDuTemps=edt)
+    eleve2 = Eleve(aNom="Martin", aPrenom="Claire", aTel="9876543210", aMail="claire.martin@example.com", aAnneeEntree=2022, aNiveau = "4ème", aEmploiDuTemps=edt)
 
     classe1.ajouter_eleve(eleve1)
     classe1.ajouter_eleve(eleve2)

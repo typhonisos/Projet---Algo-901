@@ -3,12 +3,12 @@ from EmploiDuTemps import EmploiDuTemps
 
 class Eleve(Personne):
 
-    def __init__(self, anom, aprenom, atel, amail, aanneeEntree, aniveau, aemploiDuTemps=None):
-        super().__init__(anom, aprenom, atel, amail)
-        self.aAnneeEntree = aanneeEntree
-        self.aNiveau = aniveau
+    def __init__(self, aNom, aPrenom, aTel, aMail, aAnneeEntree, aNiveau, aEmploiDuTemps=None):
+        super().__init__(aNom, aPrenom, aTel, aMail)
+        self.aAnneeEntree = aAnneeEntree
+        self.aNiveau = aNiveau
         self.aNotes = {}  # {Matiere: [notes]}
-        self.aEmploiDuTemps = aemploiDuTemps  # lien vers la classe EmploiDuTemps
+        self.aEmploiDuTemps = aEmploiDuTemps  # lien vers la classe EmploiDuTemps
 
     def ajouterNote(self, aMatiere, anote):
         if aMatiere not in self.aNotes:
@@ -33,13 +33,13 @@ if __name__ == "__main__":
 
     # Création d’un élève avec son emploi du temps
     e = Eleve(
-        anom="Dupont",
-        aprenom="Jean",
-        atel="0601020304",
-        amail="jean.dupont@example.com",
-        aanneeEntree=2022,
-        aniveau="3ème",
-        aemploiDuTemps=edt
+        aNom="Dupont",
+        aPrenom="Jean",
+        aTel="0601020304",
+        aMail="jean.dupont@example.com",
+        aAnneeEntree=2022,
+        aNiveau="3ème",
+        aEmploiDuTemps=edt
     )
 
     # Ajout de notes
@@ -56,4 +56,4 @@ if __name__ == "__main__":
     print("\nMoyenne Maths :", e.moyenne_par_matiere("Maths"))
     print("Moyenne générale :", e.moyenne_generale())
 
-    print("\nEmploi du temps initial (81 cases) :", len(e.aEmploiDuTemps.aEdt), "cases")
+    #print("\nEmploi du temps initial (81 cases) :", len(e.aEmploiDuTemps.aEdt), "cases")

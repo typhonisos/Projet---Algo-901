@@ -4,12 +4,12 @@ Description : Représente une personne (élève ou enseignant) avec les infos de
 """
 
 class Personne:
-    def __init__(self, nom: str, prenom: str, telephone: str, mail: str):
+    def __init__(self, aNom: str, aPrenom: str, aTelephone: str, aMail: str):
         """Constructeur de la classe Personne"""
-        self.nom = nom
-        self.prenom = prenom
-        self.telephone = telephone
-        self.mail = mail
+        self.nom = aNom
+        self.prenom = aPrenom
+        self.telephone = aTelephone
+        self.mail = aMail
 
     def __str__(self):
         """Méthode pour l’affichage de la personne"""

@@ -6,7 +6,6 @@ Ainsi
 
 
 """
-
 class EmploiDuTemps :
 
     def __init__(self, x):
@@ -15,10 +14,10 @@ class EmploiDuTemps :
 
 
     
-
+    @staticmethod
     # La fonction getCreneau prends une date au format "jourDeLaSemaine_numeroDeLaSemaine_heureDeDebut" et renvoie l'entier correspondant à cette tranche ou 0 si format non valide
     # par exemple "Lundi 4 9" renvoie au créneau de 9h à 10h du lundi en semaine paire donc 42
-    def getCreneau(date):
+    def getCreneau(date : str):
         jourDeLaSemaine = {"Lundi": 0, "Mardi": 1, "Mercredi": 2, "Jeudi": 3, "Vendredi": 4, "lundi": 0, "mardi": 1, "mercredi": 2, "jeudi": 3, "vendredi": 4}
         horaire = {"8": 1, "9": 2, "10": 3, "11": 4, "13": 5, "14": 6, "15": 7, "16": 8}
         res = 0
@@ -33,7 +32,8 @@ class EmploiDuTemps :
         res = 40*pariteSemaine + 8*jour + heure
         return res
         
-    def test():
+    
+    def test(self):
         listeErreur = []
         tests = ["Lundi 4 9", "Mardi 1 11", "lundi 4 9", "londi 0 8", "lundi 4 7" ]
         resTests = [42, 12, 42, 0, 0]
@@ -46,7 +46,8 @@ class EmploiDuTemps :
             print("Les tests n°"+str(listeErreur)+" ont échoués")
 
         
-EmploiDuTemps.test()
+edt = EmploiDuTemps(None)
+EmploiDuTemps.test(edt)
 
 
         
