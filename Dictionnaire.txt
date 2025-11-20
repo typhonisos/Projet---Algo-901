@@ -7,10 +7,16 @@ Le département des sciences composé des mathématiques, SVT, technologie et de
 Le département des langues composé du français, LV1 et LV2.
 Le département des arts libéraux composé de l'histoire géographie, l'EMC, l'art plastique et l'éducation musicale.
 Le département des sports constitué uniquement de l'EPS.
+Chaque département à un responsable parmi les enseignants qui en sont membres.
 
 Chaque matière est dispensé dans une seule salle de cours pour une même classe, mais deux classes peuvent suivent une même matière dans deux salles différentes.
 
+Chaque classe à un effectif maximum de 20 élèves.
+
 Chaque professeur est enseignant d'une seule matière.
+
+Les moyennes sont à calculer de façon naïve (cad que la moyenne d'un département est la moyenne des moyennes des matières de ce département.
+La moyenne générale d'un élève est calculer uniquement à partir des matières notées.
 
 Les emplois du temps sont identiques pour les élèves d'une même classe et périodique avec un cycle de 2 semaines.
 
