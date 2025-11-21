@@ -1,7 +1,11 @@
        Dictionnaire TD01 POO
 
+Une académie est une liste de collèges. 
 
-Un collège se compose de plusieurs département qui regroupent chacun certaines matières.
+Un collège se compose de plusieurs département qui regroupent chacun certaines matières et d'un site internet.
+
+Un siteWeb est composé uniquement de son URL.
+
 
 Le département des sciences composé des mathématiques, SVT, technologie et de la physique chimie.
 Le département des langues composé du français, LV1 et LV2.
@@ -13,12 +17,16 @@ Chaque matière est dispensé dans une seule salle de cours pour une même class
 
 Chaque classe à un effectif maximum de 20 élèves.
 
-Chaque professeur est enseignant d'une seule matière.
+Tous les membres du collèges possèdent une fiche signalétique
+
+Les élèves ont en plus une classe qui leur est associé ainsi que leur année d'entrée au collège
+
+Chaque professeur est enseignant d'une seule matière. Il possède comme attribut supplémentaire sa date de prise de fonction ainsi que son indice de rémunération.
 
 Les moyennes sont à calculer de façon naïve (cad que la moyenne d'un département est la moyenne des moyennes des matières de ce département.
 La moyenne générale d'un élève est calculer uniquement à partir des matières notées.
 
 Les emplois du temps sont identiques pour les élèves d'une même classe et périodique avec un cycle de 2 semaines.
 
-
+Les salles de classes disposent également d'un emploi du temps qui leur est propre.
 
